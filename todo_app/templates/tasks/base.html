@@ -1,0 +1,52 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>To‑Do App</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+body {
+    /* background-color: #f0f4f8; */ /* fallback */
+    background-image: url("{% static 'images/v1064-22.jpg' %}");
+    background-size: contain;
+    background-color: transparent !important;
+    background-position: center;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+  table.table,
+  table.table th,
+  table.table td {
+    background-color: transparent !important;
+}
+
+</style>
+</head>
+
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+  <div class="container">
+    <a class="navbar-brand" href="{% url 'task-list' %}">To‑Do App</a>
+    <div>
+      {% if user.is_authenticated %}
+        <span class="text-white">Hi {{ user.username }}!</span>
+        <a href="{% url 'logout' %}" class="btn btn-outline-light btn-sm">Logout</a>
+      {% else %}
+        <a href="{% url 'login' %}" class="btn btn-outline-light btn-sm">Login</a>0.012
+      {% endif %}
+    </div>
+  </div>
+</nav>
+
+<div class="container bg-overlay p-1 rounded d-flex justify-content-center align-items-center" style="min-height:75vh">
+  <div>
+    {% block content %}{% endblock %}
+  </div>
+</div>
+
+
+</body>
+</html>

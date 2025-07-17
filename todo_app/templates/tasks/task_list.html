@@ -1,0 +1,89 @@
+{% extends 'tasks/base.html' %}
+
+{% block content %}
+<h2>Your Tasks</h2>
+
+
+<form method="get" class="row g-3 mb-4">
+  <div class="col-auto">
+    <input type="text" name="q" placeholder="Search..." value="{{ request.GET.q }}" class="form-control">
+  </div>
+  <div class="col-auto">
+    <select name="status" class="form-select">
+      <option value="">All</option>
+      <option value="completed" {% if request.GET.status == 'completed' %}selected{% endif %}>Completed</option>
+      <option value="pending" {% if request.GET.status == 'pending' %}selected{% endif %}>Pending</option>
+    </select>
+  </div>
+  <div class="col-auto">
+    <select name="priority" class="form-select">
+      <option value="">All Priorities</option>
+      <option value="Low" {% if request.GET.priority == 'Low' %}selected{% endif %}>Low</option>
+      <option value="Medium" {% if request.GET.priority == 'Medium' %}selected{% endif %}>Medium</option>
+      <option value="High" {% if request.GET.priority == 'High' %}selected{% endif %}>High</option>
+    </select>
+  </div>
+  <div class="col-auto">
+    <button type="submit" class="btn btn-primary">Filter</button>
+    <a href="{% url 'task-add' %}" class="btn btn-success">+ Add Task</a>
+  </div>
+</form>
+
+<table class="table table-bordered">
+<thead>
+<tr>
+  <th>Title</th>
+  <th>Priority</th>
+  <th>Due Date</th>
+  <th>Status</th>
+  <th>Actions</th>
+</tr>
+</thead>
+<tbody>
+{% for task in object_list %}
+<tr>
+  <td>{{ task.title }}</td>
+  <td>{{ task.priority }}</td>
+  <td>{{ task.due_date }}</td>
+  <td>
+    {% if task.completed %}
+      ✅ Completed
+    {% else %}
+      ❌ Pending
+    {% endif %}
+  </td>
+  <td>
+    <a href="{% url 'task-edit' task.id %}" class="btn btn-warning btn-sm">Edit</a>
+    <a href="{% url 'task-delete' task.id %}" class="btn btn-danger btn-sm">Delete</a>
+  </td>
+</tr>
+{% empty %}
+<tr>
+  <td colspan="5">No tasks found.</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+
+<div>
+  {% if is_paginated %}
+    <nav>
+      <ul class="pagination">
+        {% if page_obj.has_previous %}
+          <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.previous_page_number }}">&laquo;</a>
+          </li>
+        {% endif %}
+        <li class="page-item active">
+          <span class="page-link">{{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span>
+        </li>
+        {% if page_obj.has_next %}
+          <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.next_page_number }}">&raquo;</a>
+          </li>
+        {% endif %}
+      </ul>
+    </nav>
+  {% endif %}
+</div>
+{% endblock %}

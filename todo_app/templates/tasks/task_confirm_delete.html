@@ -1,0 +1,13 @@
+{% extends 'tasks/base.html' %}
+
+{% block content %}
+<h2>Confirm Delete</h2>
+
+<p>Delete ho gya toh phir se bnana pdega: <strong>{{ object.title }}</strong>?</p>
+
+<form method="post">
+  {% csrf_token %}
+  <button type="submit" class="btn btn-danger">Haan,Krde</button>
+  <a href="{% url 'task-list' %}" class="btn btn-secondary">Nahi,Rehnde</a>
+</form>
+{% endblock %}
