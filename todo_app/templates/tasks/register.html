@@ -1,0 +1,63 @@
+{% extends "tasks/base.html" %}
+
+{% block content %}
+<div class="card" style="max-width: 400px; margin: 0 auto;">
+    <div class="card-body">
+        <h2 class="card-title text-center mb-4">Sign Up</h2>
+        <form method="post">
+            {% csrf_token %}
+            
+            {% if form.errors %}
+                <div class="alert alert-danger">
+                    {% for field, errors in form.errors.items %}
+                        {% for error in errors %}
+                            {{ error }}
+                        {% endfor %}
+                    {% endfor %}
+                </div>
+            {% endif %}
+            
+            <div class="mb-3">
+                <label for="id_username" class="form-label">Username</label>
+                <input type="text" name="username" id="id_username" class="form-control" required>
+                <div class="form-text">Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.</div>
+            </div>
+            
+            <div class="mb-3">
+                <label for="id_email" class="form-label">Email</label>
+                <input type="email" name="email" id="id_email" class="form-control" required>
+            </div>
+            
+            <div class="mb-3">
+                <label for="id_password1" class="form-label">Password</label>
+                <input type="password" name="password1" id="id_password1" class="form-control" required>
+                <div class="form-text">
+                    <ul>
+                        <li>Your password can't be too similar to your other personal information.</li>
+                        <li>Your password must contain at least 8 characters.</li>
+                        <li>Your password can't be a commonly used password.</li>
+                        <li>Your password can't be entirely numeric.</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="mb-3">
+                <label for="id_password2" class="form-label">Password confirmation</label>
+                <input type="password" name="password2" id="id_password2" class="form-control" required>
+                <div class="form-text">Enter the same password as before, for verification.</div>
+            </div>
+            
+            <div class="d-grid gap-2">
+                <button type="submit" class="btn btn-primary">Sign up</button>
+            </div>
+        </form>
+        
+        <div class="text-center mt-3">
+    <p>Already have an account? <a href="{% url 'login' %}">Log in</a></p>
+    <hr>
+    <a href="{% url 'discord_login' %}" class="btn btn-danger">Sign up with Discord</a>
+</div>
+
+    </div>
+</div>
+{% endblock %}
